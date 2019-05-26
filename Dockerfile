@@ -9,4 +9,6 @@ FROM gcr.io/distroless/base
 
 COPY --from=build_env /go/dns-over-https/doh-server/doh-server /bin/doh-server
 
+WORKDIR /
+
 ENTRYPOINT ["/bin/doh-server"]
