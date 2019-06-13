@@ -1,18 +1,17 @@
-ARG VERSION=2.0.1
+ARG SOURCE_BRANCH=master
 
 FROM golang:stretch as build_env
-ARG VERSION
+ARG SOURCE_BRANCH
 
-RUN curl -O -J -L https://github.com/m13253/dns-over-https/archive/v${VERSION}.tar.gz
-RUN tar xvf dns-over-https-${VERSION}.tar.gz
+RUN git clone https://github.com/m13253/dns-over-https
 
-WORKDIR /go/dns-over-https-${VERSION}/doh-server
+WORKDIR /go/dns-over-https/doh-server
+RUN git checkout ${SOURCE_BRANCH}
 RUN go build .
 
 FROM gcr.io/distroless/base
-ARG VERSION
 
-COPY --from=build_env /go/dns-over-https-${VERSION}/doh-server/doh-server /bin/doh-server
+COPY --from=build_env /go/dns-over-https/doh-server/doh-server /bin/doh-server
 
 WORKDIR /
 
