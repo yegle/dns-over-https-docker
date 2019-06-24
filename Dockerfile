@@ -1,6 +1,6 @@
 FROM golang:1.12-stretch as build_env
 ARG SOURCE_BRANCH
-ENV SOURCE_BRANCH=${SOURCE_BRANCH:-v2.0.1}
+ENV SOURCE_BRANCH=${SOURCE_BRANCH:-v2.1.1}
 
 RUN git clone https://github.com/m13253/dns-over-https
 
