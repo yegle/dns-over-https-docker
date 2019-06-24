@@ -7,6 +7,7 @@ RUN git clone https://github.com/m13253/dns-over-https
 WORKDIR /go/dns-over-https/doh-server
 RUN git checkout ${SOURCE_BRANCH}
 RUN go build .
+RUN strip -s doh-server
 
 FROM gcr.io/distroless/base
 
