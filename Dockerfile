@@ -8,9 +8,13 @@ WORKDIR /go/dns-over-https/doh-server
 RUN git checkout -b temp ${SOURCE_BRANCH}
 RUN CGO_ENABLED=0 go build .
 RUN strip -s doh-server
-RUN setcap 'cap_net_bind_service=+ep' doh-server
+#RUN setcap 'cap_net_bind_service=+ep' doh-server
 
-FROM gcr.io/distroless/static-debian10:nonroot
+# Unfortunately copying file from another container during multi-stage build
+# won't preserve the extended attributes, thus I can't use the nonroot image,
+# and there's no :latest image that I can use.
+# Use :debug build for now.
+FROM gcr.io/distroless/static-debian10:debug
 
 COPY --from=build_env /go/dns-over-https/doh-server/doh-server /bin/doh-server
 
