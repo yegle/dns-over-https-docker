@@ -8,8 +8,9 @@ WORKDIR /go/dns-over-https/doh-server
 RUN git checkout -b temp ${SOURCE_BRANCH}
 RUN CGO_ENABLED=0 go build .
 RUN strip -s doh-server
+RUN setcap 'cap_net_bind_service=+ep' doh-server
 
-FROM gcr.io/distroless/static
+FROM gcr.io/distroless/static-debian10:nonroot
 
 COPY --from=build_env /go/dns-over-https/doh-server/doh-server /bin/doh-server
 
