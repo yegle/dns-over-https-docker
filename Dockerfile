@@ -1,4 +1,4 @@
-FROM golang:1.12.8-stretch as build_env
+FROM golang:1.13-stretch as build_env
 ARG SOURCE_BRANCH
 ENV SOURCE_BRANCH=${SOURCE_BRANCH:-v2.1.2}
 
